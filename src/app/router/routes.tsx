@@ -1,17 +1,11 @@
 import { lazy, Suspense } from 'react';
-import { Navigate, Outlet, RouteObject } from 'react-router-dom';
+import { Navigate, RouteObject } from 'react-router-dom';
 import { PageLoader } from '@/components/custum-ui/PageLoader';
 
 // Lazy load layouts
 const AdminLayout = lazy(() =>
   import('@/shared/layout/AdminLayout').then((module) => ({
     default: module.AdminLayout,
-  }))
-);
-
-const AuthLayout = lazy(() =>
-  import('@/features/auth/layout/AuthLayout').then((module) => ({
-    default: module.AuthLayout,
   }))
 );
 
