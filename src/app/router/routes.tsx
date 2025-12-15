@@ -1,8 +1,21 @@
 import { lazy, Suspense } from 'react';
-import { Navigate, RouteObject } from 'react-router';
-import { AdminLayout } from '@/shared/layout/AdminLayout';
+import { Navigate, Outlet, RouteObject } from 'react-router-dom';
 import { PageLoader } from '@/components/custum-ui/PageLoader';
 
+// Lazy load layouts
+const AdminLayout = lazy(() =>
+  import('@/shared/layout/AdminLayout').then((module) => ({
+    default: module.AdminLayout,
+  }))
+);
+
+const AuthLayout = lazy(() =>
+  import('@/features/auth/layout/AuthLayout').then((module) => ({
+    default: module.AuthLayout,
+  }))
+);
+
+// Lazy load pages
 const LoginPage = lazy(() =>
   import('@/features/auth/public/login').then((module) => ({
     default: module.LoginPage,
@@ -21,6 +34,11 @@ const SettingsPage = lazy(() =>
 const RegistrationListPage = lazy(() =>
   import('@/features/registration/admin').then((module) => ({
     default: module.RegistrationListPage,
+  }))
+);
+const RegistrationPage = lazy(() =>
+  import('@/features/registration/public').then((module) => ({
+    default: module.RegistrationPage,
   }))
 );
 const OrganizationChartPage = lazy(() =>
@@ -59,8 +77,20 @@ export const routes: RouteObject[] = [
     ),
   },
   {
+    path: '/register',
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <RegistrationPage />
+      </Suspense>
+    ),
+  },
+  {
     path: '/admin',
-    element: <AdminLayout />,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <AdminLayout />
+      </Suspense>
+    ),
     children: [
       {
         index: true,
@@ -99,6 +129,14 @@ export const routes: RouteObject[] = [
         ),
       },
       {
+        path: 'scheduler',
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <ScientificSchedulerPage />
+          </Suspense>
+        ),
+      },
+      {
         path: 'organization',
         element: (
           <Suspense fallback={<PageLoader />}>
@@ -111,14 +149,6 @@ export const routes: RouteObject[] = [
         element: (
           <Suspense fallback={<PageLoader />}>
             <KanbanBoardPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'scheduler',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <ScientificSchedulerPage />
           </Suspense>
         ),
       },
