@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Card,
   CardContent,
@@ -19,8 +18,11 @@ import {
 } from '@/components/ui/select';
 import { Palette, Globe, Database } from 'lucide-react';
 
+import { useTheme } from '@/components/refine-ui/theme/theme-provider';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+
 export const PreferenceSettings = () => {
-  const [darkMode, setDarkMode] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   return (
     <div className="space-y-6">
@@ -30,23 +32,67 @@ export const PreferenceSettings = () => {
           <CardDescription>Customize how the application looks</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="flex items-center justify-between">
+          <div className="space-y-4">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
                 <Palette className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-                <Label htmlFor="dark-mode" className="font-medium">
-                  Dark Mode
-                </Label>
+                <Label className="font-medium">Theme</Label>
               </div>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                Use dark theme across the application
+                Select your preferred theme for the application
               </p>
             </div>
-            <Switch
-              id="dark-mode"
-              checked={darkMode}
-              onCheckedChange={setDarkMode}
-            />
+
+            <RadioGroup
+              defaultValue={theme}
+              onValueChange={(value) =>
+                setTheme(value as 'light' | 'dark' | 'system')
+              }
+              className="grid grid-cols-3 gap-4"
+            >
+              <div>
+                <RadioGroupItem
+                  value="light"
+                  id="light"
+                  className="peer sr-only"
+                />
+                <Label
+                  htmlFor="light"
+                  className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                >
+                  <span className="mb-2 text-xl">☀️</span>
+                  Light
+                </Label>
+              </div>
+              <div>
+                <RadioGroupItem
+                  value="dark"
+                  id="dark"
+                  className="peer sr-only"
+                />
+                <Label
+                  htmlFor="dark"
+                  className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                >
+                  <span className="mb-2 text-xl">🌙</span>
+                  Dark
+                </Label>
+              </div>
+              <div>
+                <RadioGroupItem
+                  value="system"
+                  id="system"
+                  className="peer sr-only"
+                />
+                <Label
+                  htmlFor="system"
+                  className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                >
+                  <span className="mb-2 text-xl">💻</span>
+                  System
+                </Label>
+              </div>
+            </RadioGroup>
           </div>
 
           <Separator />
