@@ -3,18 +3,18 @@ import { useNavigate } from 'react-router';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Building2, Lock, Mail } from 'lucide-react';
+import { Building2, Lock, Mail, User } from 'lucide-react';
 
-export const LoginPage = () => {
+export const SignupPage = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('demo@example.com');
-  const [password, setPassword] = useState('password');
-  const [rememberMe, setRememberMe] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
-    // Dummy authentication - just redirect to dashboard
+    // Dummy signup - just redirect to dashboard
     navigate('/admin/dashboard');
   };
 
@@ -27,16 +27,38 @@ export const LoginPage = () => {
             <Building2 className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Welcome Back
+            Create Account
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Sign in to your organization dashboard
+            Join your organization dashboard today
           </p>
         </div>
 
-        {/* Login Card */}
+        {/* Signup Card */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700">
-          <form onSubmit={handleLogin} className="space-y-6">
+          <form onSubmit={handleSignup} className="space-y-6">
+            {/* Name Field */}
+            <div className="space-y-2">
+              <Label
+                htmlFor="name"
+                className="text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                Full Name
+              </Label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="John Doe"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="pl-10 h-12 bg-gray-50 dark:bg-gray-900 border-gray-300 dark:border-gray-600"
+                  required
+                />
+              </div>
+            </div>
+
             {/* Email Field */}
             <div className="space-y-2">
               <Label
@@ -50,7 +72,7 @@ export const LoginPage = () => {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="admin@organization.com"
+                  placeholder="name@organization.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="pl-10 h-12 bg-gray-50 dark:bg-gray-900 border-gray-300 dark:border-gray-600"
@@ -81,37 +103,34 @@ export const LoginPage = () => {
               </div>
             </div>
 
-            {/* Remember Me & Forgot Password */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="remember"
-                  checked={rememberMe}
-                  onCheckedChange={(checked) =>
-                    setRememberMe(checked as boolean)
-                  }
-                />
-                <Label
-                  htmlFor="remember"
-                  className="text-sm text-gray-600 dark:text-gray-400 cursor-pointer"
-                >
-                  Remember me
-                </Label>
-              </div>
-              <a
-                href="#"
-                className="text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+            {/* Confirm Password Field */}
+            <div className="space-y-2">
+              <Label
+                htmlFor="confirm-password"
+                className="text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                Forgot password?
-              </a>
+                Confirm Password
+              </Label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Input
+                  id="confirm-password"
+                  type="password"
+                  placeholder="••••••••"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="pl-10 h-12 bg-gray-50 dark:bg-gray-900 border-gray-300 dark:border-gray-600"
+                  required
+                />
+              </div>
             </div>
 
-            {/* Login Button */}
+            {/* Signup Button */}
             <Button
               type="submit"
               className="w-full h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-200"
             >
-              Sign In
+              Create Account
             </Button>
           </form>
 
@@ -171,14 +190,14 @@ export const LoginPage = () => {
           </div>
         </div>
 
-        {/* Sign Up Link */}
+        {/* Login Link */}
         <p className="text-center mt-6 text-sm text-gray-600 dark:text-gray-400">
-          Don't have an account?{' '}
+          Already have an account?{' '}
           <a
-            href="/signup"
+            href="/login"
             className="font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
           >
-            Sign up for free
+            Sign in
           </a>
         </p>
       </div>

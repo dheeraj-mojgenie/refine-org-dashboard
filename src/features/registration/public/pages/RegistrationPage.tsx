@@ -1,24 +1,37 @@
-import { RegistrationForm } from '../components/RegistrationForm';
+import { useState } from 'react';
+import { RegistrationLayout } from '../components/RegistrationLayout';
+import { BasicDetailsStep } from '../components/steps/BasicDetailsStep';
+import { AddressStep } from '../components/steps/AddressStep';
+import { ContactInfoStep } from '../components/steps/ContactInfoStep';
+import { FacilitiesStep } from '../components/steps/FacilitiesStep';
+import { AccompanyingPersonsStep } from '../components/steps/AccompanyingPersonsStep';
+import { PaymentStep } from '../components/steps/PaymentStep';
 
 export const RegistrationPage = () => {
+  const [currentStep, setCurrentStep] = useState(1);
+
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1:
+        return <BasicDetailsStep />;
+      case 2:
+        return <AddressStep />;
+      case 3:
+        return <ContactInfoStep />;
+      case 4:
+        return <FacilitiesStep />;
+      case 5:
+        return <AccompanyingPersonsStep />;
+      case 6:
+        return <PaymentStep />;
+      default:
+        return <BasicDetailsStep />;
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50/50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md mb-8 text-center">
-        <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
-          TechConf 2024
-        </h1>
-        <p className="mt-2 text-lg text-gray-600">
-          Join us for the biggest tech event of the year
-        </p>
-      </div>
-
-      <div className="sm:mx-auto sm:w-full sm:max-w-[480px]">
-        <RegistrationForm />
-      </div>
-
-      <div className="mt-8 text-center text-sm text-gray-500">
-        <p>&copy; 2024 Tech Events Inc. All rights reserved.</p>
-      </div>
-    </div>
+    <RegistrationLayout currentStep={currentStep} onStepChange={setCurrentStep}>
+      {renderStep()}
+    </RegistrationLayout>
   );
 };

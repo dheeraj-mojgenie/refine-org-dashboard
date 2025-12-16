@@ -15,6 +15,11 @@ const LoginPage = lazy(() =>
     default: module.LoginPage,
   }))
 );
+const SignupPage = lazy(() =>
+  import('@/features/auth/public/signup').then((module) => ({
+    default: module.SignupPage,
+  }))
+);
 const DashboardPage = lazy(() =>
   import('@/features/admin-dashboard').then((module) => ({
     default: module.DashboardPage,
@@ -28,6 +33,11 @@ const SettingsPage = lazy(() =>
 const RegistrationListPage = lazy(() =>
   import('@/features/registration/admin').then((module) => ({
     default: module.RegistrationListPage,
+  }))
+);
+const RegistrationShowPage = lazy(() =>
+  import('@/features/registration/admin').then((module) => ({
+    default: module.RegistrationShowPage,
   }))
 );
 const RegistrationPage = lazy(() =>
@@ -79,6 +89,14 @@ export const routes: RouteObject[] = [
     ),
   },
   {
+    path: '/signup',
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <SignupPage />
+      </Suspense>
+    ),
+  },
+  {
     path: '/admin',
     element: (
       <Suspense fallback={<PageLoader />}>
@@ -100,11 +118,24 @@ export const routes: RouteObject[] = [
       },
       {
         path: 'registrations',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <RegistrationListPage />
-          </Suspense>
-        ),
+        children: [
+          {
+            index: true,
+            element: (
+              <Suspense fallback={<PageLoader />}>
+                <RegistrationListPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: ':id',
+            element: (
+              <Suspense fallback={<PageLoader />}>
+                <RegistrationShowPage />
+              </Suspense>
+            ),
+          },
+        ],
       },
       {
         path: 'events',

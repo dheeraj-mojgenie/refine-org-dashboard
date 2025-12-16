@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   generateRegistrations,
   type Registration,
@@ -51,6 +52,7 @@ import { RegistrationCreate } from '../components/RegistrationCreate';
 const ITEMS_PER_PAGE = 10;
 
 export const RegistrationListPage = () => {
+  const navigate = useNavigate();
   const allRegistrations = useMemo(() => generateRegistrations(100), []);
   const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set());
   const [searchQuery, setSearchQuery] = useState('');
@@ -414,7 +416,13 @@ export const RegistrationListPage = () => {
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              navigate(
+                                `/admin/registrations/${registration.id}`
+                              )
+                            }
+                          >
                             <Eye className="w-4 h-4 mr-2" />
                             View Details
                           </DropdownMenuItem>
